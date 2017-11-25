@@ -6,7 +6,7 @@ Using Docker Compose to setup an  with sentinel.
 
 ## Prerequisite
 
-Install [Docker][4] and [Docker Compose][3] in testing environment
+Install [Docker][1] and [Docker Compose][2] in testing environment
 
 
 ## Docker Compose template of Redis cluster
@@ -81,27 +81,6 @@ Scale out the instance number of slaves
 docker-compose scale slave=2
 ```
 
-Check the status of redis cluster
-
-```
-docker-compose ps
-```
-
-The result is 
-
-```
-         Name                        Command               State          Ports        
---------------------------------------------------------------------------------------
-rediscluster_master_1     docker-entrypoint.sh redis ...   Up      6379/tcp            
-rediscluster_sentinel_1   docker-entrypoint.sh redis ...   Up      26379/tcp, 6379/tcp 
-rediscluster_sentinel_2   docker-entrypoint.sh redis ...   Up      26379/tcp, 6379/tcp 
-rediscluster_sentinel_3   docker-entrypoint.sh redis ...   Up      26379/tcp, 6379/tcp 
-rediscluster_slave_1      docker-entrypoint.sh redis ...   Up      6379/tcp            
-rediscluster_slave_2      docker-entrypoint.sh redis ...   Up      6379/tcp            
-```
-
- 
-
 You can do the test manually to pause/unpause redis server through
 
 ```
@@ -116,10 +95,6 @@ docker-compose exec sentinel redis-cli -p 26379 SENTINEL get-master-addr-by-name
 
 ```
 
-## References
 
-
-[1]: https://github.com/mdevilliers/docker-rediscluster
-[2]: https://registry.hub.docker.com/u/joshula/redis-sentinel/
-[3]: https://docs.docker.com/compose/
-[4]: https://www.docker.com
+[1]: https://www.docker.com
+[2]: https://docs.docker.com/compose/
