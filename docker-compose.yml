@@ -1,0 +1,40 @@
+version: "3"
+services:
+  master:
+    image: redis:4-alpine
+    networks:
+      - redis_cluster
+  slave:
+    image: redis:4-alpine
+    command: redis-server --slaveof master 6379
+    networks:
+      - redis_cluster
+  sentinel:
+    build: sentinel
+    environment:
+      - SENTINEL_DOWN_AFTER=5000
+      - SENTINEL_FAILOVER=5000
+      - SENTINEL_QUORUM=1
+    depends_on:
+      - master
+      - slave
+    networks:
+      - redis_cluster
+  proxy:
+    build: haproxy
+    depends_on:
+      - master
+      - slave
+      - sentinel
+    ports:
+      - '9000:9000'
+      - '6379:6379'
+    environment:
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=password
+      - REDIS_HOSTS=master,slave
+    networks:
+      - redis_cluster
+
+networks:
+  redis_cluster:
