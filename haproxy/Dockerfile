@@ -1,4 +1,4 @@
-FROM haproxy:1.7
+FROM haproxy:1.7-alpine
 
 COPY haproxy-entrypoint.sh /
 
